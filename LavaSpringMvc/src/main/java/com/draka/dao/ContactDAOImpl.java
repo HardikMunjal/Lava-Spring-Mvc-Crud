@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @author www.codejava.net
  *
  */
-@Service
+@Repository("ContactDAO")
 public class ContactDAOImpl implements ContactDAO {
 
 	@Autowired

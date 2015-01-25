@@ -14,17 +14,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.draka.dao.ContactDAO;
 import com.draka.model.Contact;
+import com.draka.service.ContactService;
 
 @Controller
 public class ContactController {
 	
+	//@Autowired
+    //private ContactDAO contactDAO;
 	@Autowired
-    private ContactDAO contactDAO;
-	
+    private ContactService contactService;
 	
 	@RequestMapping(value="/a")
 	public ModelAndView listContact(ModelAndView model) throws IOException{
-	    List<Contact> listContact = contactDAO.list();
+	    List<Contact> listContact = contactService.list();
 	    model.addObject("listContact", listContact);
 	    model.setViewName("home");
 	 
@@ -39,19 +41,19 @@ public class ContactController {
 	}
 	@RequestMapping(value = "/saveContact", method = RequestMethod.POST)
 	public ModelAndView saveContact(@ModelAttribute Contact contact) {
-	    contactDAO.saveOrUpdate(contact);
+	    contactService.saveOrUpdate(contact);
 	    return new ModelAndView("redirect:/");
 	}
 	@RequestMapping(value = "/deleteContact", method = RequestMethod.GET)
 	public ModelAndView deleteContact(HttpServletRequest request) {
 	    int contactId = Integer.parseInt(request.getParameter("id"));
-	    contactDAO.delete(contactId);
+	    contactService.delete(contactId);
 	    return new ModelAndView("redirect:/");
 	}
 	@RequestMapping(value = "/editContact", method = RequestMethod.GET)
 	public ModelAndView editContact(HttpServletRequest request) {
 	    int contactId = Integer.parseInt(request.getParameter("id"));
-	    Contact contact = contactDAO.get(contactId);
+	    Contact contact = contactService.get(contactId);
 	    ModelAndView model = new ModelAndView("ContactForm");
 	    model.addObject("contact", contact);
 	 
